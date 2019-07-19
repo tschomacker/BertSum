@@ -278,21 +278,19 @@ def _format_to_bert(params):
 
 
 def format_to_lines(args):
-    corpus_mapping = {}
-    for corpus_type in ['valid', 'test', 'train']:
-        temp = []
-        for line in open(pjoin(args.map_path, 'mapping_' + corpus_type + '.txt')):
-            temp.append(hashhex(line.strip()))
-        corpus_mapping[corpus_type] = {key.strip(): 1 for key in temp}
     train_files, valid_files, test_files = [], [], []
     for f in glob.glob(pjoin(args.raw_path, '*.json')):
-        real_name = f.split('/')[-1].split('.')[0]
-        if (real_name in corpus_mapping['valid']):
-            valid_files.append(f)
-        elif (real_name in corpus_mapping['test']):
-            test_files.append(f)
-        elif (real_name in corpus_mapping['train']):
+        i = random.randint(0, 9)
+        if i <= 1:
+            #<10% of the time>
             train_files.append(f)
+        elif i <= 3:
+            #<20% of the time>
+            valid_files.append(f)
+        else:
+            #<70% of the time>
+            test_files.append(f)
+            
 
     corpora = {'train': train_files, 'valid': valid_files, 'test': test_files}
     for corpus_type in ['train', 'valid', 'test']:
