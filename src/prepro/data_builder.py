@@ -17,6 +17,7 @@ from others.logging import logger
 from others.utils import clean
 from prepro.utils import _get_word_ngrams
 
+import numpy as np
 
 def load_json(p, lower):
     source = []
