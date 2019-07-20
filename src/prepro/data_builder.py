@@ -17,7 +17,7 @@ from others.logging import logger
 from others.utils import clean
 from prepro.utils import _get_word_ngrams
 
-import numpy as np
+import random
 
 def load_json(p, lower):
     source = []
@@ -281,15 +281,15 @@ def _format_to_bert(params):
 def format_to_lines(args):
     train_files, valid_files, test_files = [], [], []
     for f in glob.glob(pjoin(args.raw_path, '*.json')):
-        i = random.randint(0, 9)
-        if i <= 1:
-            #<10% of the time>
+        v = random.choices(['train', 'valid' , 'test'], [0.7, 0.2, 0.1])
+        if v == 'train':
+            #<70% of the time>
             train_files.append(f)
-        elif i <= 3:
+        elif v == 'valid':
             #<20% of the time>
             valid_files.append(f)
         else:
-            #<70% of the time>
+            #<10% of the time>
             test_files.append(f)
             
 
