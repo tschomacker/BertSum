@@ -282,11 +282,10 @@ def format_to_lines(args):
     train_files, valid_files, test_files = [], [], []
     for f in glob.glob(pjoin(args.raw_path, '*.json')):
         v = random.choices(['train', 'valid' , 'test'], [0.7, 0.2, 0.1])
-        print(v)
-        if v == 'train':
+        if v[0] == 'train':
             #<70% of the time>
             train_files.append(f)
-        elif v == 'valid':
+        elif v[0] == 'valid':
             #<20% of the time>
             valid_files.append(f)
         else:
@@ -296,7 +295,6 @@ def format_to_lines(args):
     print('train files are ', train_files)
     corpora = {'train': train_files, 'valid': valid_files, 'test': test_files}
     for corpus_type in ['train', 'valid', 'test']:
-        print(corpus_type)
         a_lst = [(f, args) for f in corpora[corpus_type]]
         pool = Pool(args.n_cpus)
         dataset = []
