@@ -292,7 +292,7 @@ def format_to_lines(args):
             #<10% of the time>
             test_files.append(f)
             
-
+    print('train files are ', train_files)
     corpora = {'train': train_files, 'valid': valid_files, 'test': test_files}
     for corpus_type in ['train', 'valid', 'test']:
         a_lst = [(f, args) for f in corpora[corpus_type]]
