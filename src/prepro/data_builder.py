@@ -295,6 +295,7 @@ def format_to_lines(args):
     print('train files are ', train_files)
     corpora = {'train': train_files, 'valid': valid_files, 'test': test_files}
     for corpus_type in ['train', 'valid', 'test']:
+        print(corpus_type)
         a_lst = [(f, args) for f in corpora[corpus_type]]
         pool = Pool(args.n_cpus)
         dataset = []
