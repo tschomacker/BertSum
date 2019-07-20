@@ -282,6 +282,7 @@ def format_to_lines(args):
     train_files, valid_files, test_files = [], [], []
     for f in glob.glob(pjoin(args.raw_path, '*.json')):
         v = random.choices(['train', 'valid' , 'test'], [0.7, 0.2, 0.1])
+        print(v)
         if v == 'train':
             #<70% of the time>
             train_files.append(f)
