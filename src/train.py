@@ -325,6 +325,9 @@ if __name__ == '__main__':
     parser.add_argument("-train_from", default='')
     parser.add_argument("-report_rouge", type=str2bool, nargs='?',const=True,default=True)
     parser.add_argument("-block_trigram", type=str2bool, nargs='?', const=True, default=True)
+    
+    #Santosh Edit 7-28-19 for scibert pretrained model
+    parser.add_argument("-pretrained_dir", default='bert-base-uncased', type=str)
 
     args = parser.parse_args()
     args.gpu_ranks = [int(i) for i in args.gpu_ranks.split(',')]
