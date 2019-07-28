@@ -41,10 +41,10 @@ def build_optim(args, model, checkpoint):
 
 
 class Bert(nn.Module):
-    def __init__(self, temp_dir, pretrained_dir, load_pretrained_bert, bert_config):
+    def __init__(self, temp_dir, pretrained_dir, load_pretrained_bert, bert_config): #santosh edit, allows to add pretrained_dir
         super(Bert, self).__init__()
         if(load_pretrained_bert):
-            self.model = BertModel.from_pretrained(pretrained_dir, cache_dir=temp_dir)
+            self.model = BertModel.from_pretrained(pretrained_dir, cache_dir=temp_dir) #santosh edit, allows to add pretrained_dir
         else:
             self.model = BertModel(bert_config)
 
