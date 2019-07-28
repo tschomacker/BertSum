@@ -56,7 +56,9 @@ if __name__ == '__main__':
     parser.add_argument('-dataset', default='', help='train, valid or test, defaul will process all datasets')
 
     parser.add_argument('-n_cpus', default=2, type=int)
-
+    
+    #Santosh edit 7-28-19 add arg for vocab file
+    parser.add_argument('-vocab_file', default='bert-base-uncased', type=str)
 
     args = parser.parse_args()
     init_logger(args.log_file)
