@@ -32,7 +32,8 @@ def load_json(p, lower):
             continue
         if (flag):
             tgt.append(tokens)
-            flag = False
+            #commented because in CNN dataset there's a '@highlight' after each summary, where as I only put only one. 
+            #flag = False 
         else:
             source.append(tokens)
 
