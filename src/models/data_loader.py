@@ -28,7 +28,10 @@ class Batch(object):
 
             labels = torch.tensor(self._pad(pre_labels, 0))
             segs = torch.tensor(self._pad(pre_segs, 0))
-            mask = 1 - (src == 0)
+            
+            #Upgrade to new masking system, SG edit 9-30-19
+            mask = ~(src == 0)
+#             mask = 1 - (src == 0)
 
             clss = torch.tensor(self._pad(pre_clss, -1))
             mask_cls = 1 - (clss == -1)
