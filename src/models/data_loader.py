@@ -34,7 +34,12 @@ class Batch(object):
 #             mask = 1 - (src == 0)
 
             clss = torch.tensor(self._pad(pre_clss, -1))
-            mask_cls = 1 - (clss == -1)
+    
+            #Upgrade to new masking system, SG edit 9-30-19
+            mask_cls = ~(clss == -1)
+#             mask_cls = 1 - (clss == -1)
+        
+        
             clss[clss == -1] = 0
 
             setattr(self, 'clss', clss.to(device))
