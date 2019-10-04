@@ -214,6 +214,33 @@ def test(args, device_id, pt, step):
                                   shuffle=False, is_test=True)
     trainer = build_trainer(args, device_id, model, None)
     trainer.test(test_iter,step)
+    
+#Santosh edit 10-4-19 to make pipe sep csv files with both source and summary
+def testToCSV(args, device_id, pt, step):
+
+    device = "cpu" if args.visible_gpus == '-1' else "cuda"
+    if (pt != ''):
+        test_from = pt
+    else:
+        test_from = args.test_from
+    logger.info('Loading checkpoint from %s' % test_from)
+    checkpoint = torch.load(test_from, map_location=lambda storage, loc: storage)
+    opt = vars(checkpoint['opt'])
+    for k in opt.keys():
+        if (k in model_flags):
+            setattr(args, k, opt[k])
+    print(args)
+
+    config = BertConfig.from_json_file(args.bert_config_path)
+    model = Summarizer(args, device, load_pretrained_bert=False, bert_config = config)
+    model.load_cp(checkpoint)
+    model.eval()
+
+    test_iter =data_loader.Dataloader(args, load_dataset(args, 'test', shuffle=False),
+                                  args.batch_size, device,
+                                  shuffle=False, is_test=True)
+    trainer = build_trainer(args, device_id, model, None)
+    trainer.testToCSV(test_iter,step)
 
 
 def baseline(args, cal_lead=False, cal_oracle=False):
