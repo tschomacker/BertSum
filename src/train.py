@@ -354,3 +354,14 @@ if __name__ == '__main__':
         except:
             step = 0
         test(args, device_id, cp, step)
+        
+    #Santosh edit: 10-4-19
+    elif (args.mode == 'testToCSV'):
+        cp = args.test_from
+        try:
+            step = int(cp.split('.')[-2].split('_')[-1])
+        except:
+            step = 0
+        testToCSV(args, device_id, cp, step)
+        
+        
