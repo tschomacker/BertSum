@@ -344,6 +344,7 @@ class Trainer(object):
 
                     gold = []
                     pred = []
+                    source = []
 
                     if (cal_lead):
                         selected_ids = [list(range(batch.clss.size(1)))] * batch.batch_size
