@@ -384,10 +384,12 @@ class Trainer(object):
                         if(self.args.recall_eval):
                             _pred = ' '.join(_pred.split()[:len(batch.tgt_str[i].split())])
 
+                        #10-4-19 Santosh Edit
                         pred.append(_pred)
                         gold.append(batch.tgt_str[i])
-                        source.append(batch.src_str[i])
+                        source.append(''.join(batch.src_str[i]))
 
+                        #10-4-19 Santosh Edit
                     for i in range(len(gold)):
                         save_pred.write( pred[i].strip() + ' |^~| ' + gold[i].strip()  + ' |^~| ' + source[i].strip() + '\n' )
                     # for i in range(len(pred)):
