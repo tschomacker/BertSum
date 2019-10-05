@@ -392,7 +392,7 @@ class Trainer(object):
                     #     save_pred.write(pred[i].strip()+'\n')
 
         if(step!=-1 and self.args.report_rouge):
-            rouges = test_rouge(self.args.temp_dir, can_path, gold_path)
+            rouges = test_rougeCSV(self.args.temp_dir, can_path)
             logger.info('Rouges at step %d \n%s' % (step, rouge_results_to_str(rouges)))
         self._report_step(0, step, valid_stats=stats)
 
