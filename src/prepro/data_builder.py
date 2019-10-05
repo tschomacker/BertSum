@@ -325,3 +325,60 @@ def _format_to_lines(params):
     print(f)
     source, tgt = load_json(f, args.lower)
     return {'src': source, 'tgt': tgt}
+
+
+def format_to_linesMS(args):
+    test_files = []
+    for f in glob.glob(pjoin(args.raw_path, '*.json')).sort():
+        test_files.append(f)
+            
+    corpora = { 'test': test_files}
+    for corpus_type in ['test']:
+        a_lst = [(f, args) for f in corpora[corpus_type]]
+        pool = Pool(args.n_cpus)
+        dataset = []
+        p_ct = 0
+        nameTrack = []
+        for d in pool.imap_unordered(_format_to_lines, a_lst):
+            dataset.append(d[0])
+            #d[1] is the file name
+            if len(nameTrack)==0:
+                nameTrack.append( d[1].split('|INDEX|')[0] )
+                dataset.append(d[0])
+            elif d[1].split('|INDEX|')[0] in nameTrack:
+                dataset.append(d[0])
+            else:
+                pt_file = "{:s}.{:s}.{s}.json".format(args.save_path, d[1].split('|INDEX|')[0], corpus_type)
+                with open(pt_file, 'w') as save:
+                    # save.write('\n'.join(dataset))
+                    save.write(json.dumps(dataset))
+                    p_ct += 1
+                    dataset = []
+                    dataset.append(d[0])
+
+
+            # if d[1].split('|INDEX|')[0]
+            # if (len(dataset) > args.shard_size):
+            #     pt_file = "{:s}.{:s}.{:d}.json".format(args.save_path, corpus_type, p_ct)
+            #     with open(pt_file, 'w') as save:
+            #         # save.write('\n'.join(dataset))
+            #         save.write(json.dumps(dataset))
+            #         p_ct += 1
+            #         dataset = []
+
+        pool.close()
+        pool.join()
+        if (len(dataset) > 0):
+            pt_file = "{:s}.{:s}.{s}.json".format(args.save_path, d[1].split('|INDEX|')[0], corpus_type)
+            with open(pt_file, 'w') as save:
+                # save.write('\n'.join(dataset))
+                save.write(json.dumps(dataset))
+                p_ct += 1
+                dataset = []
+                dataset.append(d[0])
+
+def _format_to_linesMS(params):
+    f, args = params
+    print(f)
+    source, tgt = load_json(f, args.lower)
+    return {'src': source, 'tgt': tgt}, f
