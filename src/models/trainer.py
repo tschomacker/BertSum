@@ -434,7 +434,7 @@ class Trainer(object):
 
         with open(can_path, 'w') as save_pred:
             with torch.no_grad():
-                for batch in test_iter:
+                for batch, name in test_iter:
                     src = batch.src
                     labels = batch.labels
                     segs = batch.segs
@@ -490,7 +490,7 @@ class Trainer(object):
 
                         #10-4-19 Santosh Edit
                     for i in range(len(pred)):
-                        save_pred.write( pred[i].strip() + ' |^~| ' + source[i].strip() + '\n' )
+                        save_pred.write( pred[i].strip() + ' |^~| ' + source[i].strip() + ' |^~| ' name + '\n' )
 
         if(step!=-1 and self.args.report_rouge):
             rouges = test_rougeCSV(self.args.temp_dir, can_path)
