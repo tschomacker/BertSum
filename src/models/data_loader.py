@@ -5,7 +5,7 @@ import random
 import torch
 
 from others.logging import logger
-
+import re
 
 
 class Batch(object):
@@ -124,10 +124,11 @@ def load_datasetToCSVNewData(args, corpus_type, shuffle):
     def _lazy_dataset_loader(pt_file, corpus_type):
         logger.info('Loading %s dataset from %s' %
                     (corpus_type, pt_file))
+        name = re.search('Files.(.*).test.json', pt_file).group(1)
         dataset = torch.load(pt_file)
         logger.info('Loaded %s dataset from %s, number of examples: %d' %
                     (corpus_type, pt_file, len(dataset)))
-        return dataset
+        return dataset, name
 
     # Sort the glob output by file name (by increasing indexes).
     pts = sorted(glob.glob(args.bert_data_path + '*.pt'))
