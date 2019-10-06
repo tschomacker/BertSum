@@ -128,7 +128,7 @@ def load_datasetToCSVNewData(args, corpus_type, shuffle):
         dataset = torch.load(pt_file)
         logger.info('Loaded %s dataset from %s, number of examples: %d' %
                     (corpus_type, pt_file, len(dataset)))
-        return dataset, name
+        return (dataset, name)
 
     # Sort the glob output by file name (by increasing indexes).
     pts = sorted(glob.glob(args.bert_data_path + '*.pt'))
@@ -159,17 +159,17 @@ class Dataloader(object):
     def __init__(self, args, datasets,  batch_size,
                  device, shuffle, is_test):
         self.args = args
-        self.datasets = datasets
+        self.datasets, self.name = datasets
         self.batch_size = batch_size
         self.device = device
         self.shuffle = shuffle
         self.is_test = is_test
-        self.cur_iter = self._next_dataset_iterator(datasets)
+        self.cur_iter = self._next_dataset_iterator(self.datasets)
 
         assert self.cur_iter is not None
 
     def __iter__(self):
-        dataset_iter = (d for d, n in self.datasets)
+        dataset_iter = (d for d in self.datasets)
         while self.cur_iter is not None:
             for batch in self.cur_iter:
                 yield batch
