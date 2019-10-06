@@ -190,14 +190,15 @@ class Dataloader(object):
             return None
 
         return DataIterator(args = self.args,
-            dataset=self.cur_dataset,  batch_size=self.batch_size,
+            dataset=self.cur_dataset, name = self.name, batch_size=self.batch_size,
             device=self.device, shuffle=self.shuffle, is_test=self.is_test)
 
 
 class DataIterator(object):
-    def __init__(self, args, dataset,  batch_size,  device=None, is_test=False,
+    def __init__(self, args, dataset, name, batch_size,  device=None, is_test=False,
                  shuffle=True):
         self.args = args
+        self.name = name
         self.batch_size, self.is_test, self.dataset = batch_size, is_test, dataset
         self.iterations = 0
         self.device = device
@@ -277,5 +278,5 @@ class DataIterator(object):
                 self._iterations_this_epoch += 1
                 batch = Batch(minibatch, self.device, self.is_test)
 
-                yield batch
+                yield batch, self.name
             return
