@@ -345,10 +345,10 @@ def format_to_linesMS(args):
             if len(nameTrack)==0:
                 nameTrack.append( name )
                 dataset.append(d[0])
-            elif d[1].split('|INDEX|')[0] in nameTrack:
+            elif name in nameTrack:
                 dataset.append(d[0])
             else:
-                pt_file = "{:s}.{:s}.{s}.json".format(args.save_path, name, corpus_type)
+                pt_file = "{:s}.{:s}.{:s}.json".format(args.save_path, name, corpus_type)
                 with open(pt_file, 'w') as save:
                     # save.write('\n'.join(dataset))
                     save.write(json.dumps(dataset))
