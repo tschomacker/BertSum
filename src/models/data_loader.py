@@ -159,7 +159,7 @@ class Dataloader(object):
     def __init__(self, args, datasets,  batch_size,
                  device, shuffle, is_test):
         self.args = args
-        self.datasets, self.name = datasets
+        self.datasets, self.name = datasets.items()
         self.batch_size = batch_size
         self.device = device
         self.shuffle = shuffle
