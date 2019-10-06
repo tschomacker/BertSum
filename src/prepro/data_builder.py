@@ -357,7 +357,7 @@ def format_to_linesMS(args):
         a_lst = [(f, args) for f in corpora[corpus_type]]
         pool = Pool(args.n_cpus)
         dataset = []
-        p_ct = 0
+#         p_ct = 0
         nameTrack = []
         for d in pool.imap_unordered(_format_to_linesMS, a_lst):
             #d[1] is the file name
@@ -372,10 +372,11 @@ def format_to_linesMS(args):
                 with open(pt_file, 'w') as save:
                     # save.write('\n'.join(dataset))
                     save.write(json.dumps(dataset))
-                    p_ct += 1
-                    dataset = []
-                    nameTrack = []
-                    dataset.append(d[0])
+#                     p_ct += 1
+                dataset = []
+                nameTrack = []
+                dataset.append(d[0])
+                nameTrack.append( name )
 
 
             # if d[1].split('|INDEX|')[0]
@@ -394,9 +395,9 @@ def format_to_linesMS(args):
             with open(pt_file, 'w') as save:
                 # save.write('\n'.join(dataset))
                 save.write(json.dumps(dataset))
-                p_ct += 1
-                dataset = []
-                dataset.append(d[0])
+#                 p_ct += 1
+#                 dataset = []
+#                 dataset.append(d[0])
 
 def _format_to_linesMS(params):
     f, args = params
