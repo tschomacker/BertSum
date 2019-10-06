@@ -369,7 +369,7 @@ def format_to_linesMS(args):
         pool.close()
         pool.join()
         if (len(dataset) > 0):
-            pt_file = "{:s}.{:s}.{s}.json".format(args.save_path, d[1].split('|INDEX|')[0], corpus_type)
+            pt_file = "{:s}.{:s}.{:s}.json".format(args.save_path, d[1].split('|INDEX|')[0], corpus_type)
             with open(pt_file, 'w') as save:
                 # save.write('\n'.join(dataset))
                 save.write(json.dumps(dataset))
