@@ -159,7 +159,7 @@ class Dataloader(object):
     def __init__(self, args, datasets,  batch_size,
                  device, shuffle, is_test):
         self.args = args
-        self.datasets, self.name = datasets
+        self.datasets = datasets
         self.batch_size = batch_size
         self.device = device
         self.shuffle = shuffle
@@ -185,7 +185,7 @@ class Dataloader(object):
                 del self.cur_dataset
                 gc.collect()
 
-            self.cur_dataset = next(dataset_iter)
+            self.cur_dataset, self.name = next(dataset_iter)
         except StopIteration:
             return None
 
