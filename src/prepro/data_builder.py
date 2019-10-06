@@ -339,7 +339,7 @@ def format_to_linesMS(args):
         dataset = []
         p_ct = 0
         nameTrack = []
-        for d in pool.imap_unordered(_format_to_lines, a_lst):
+        for d in pool.imap_unordered(_format_to_linesMS, a_lst):
             dataset.append(d[0])
             #d[1] is the file name
             if len(nameTrack)==0:
