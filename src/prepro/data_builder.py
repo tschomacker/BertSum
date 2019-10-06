@@ -329,7 +329,7 @@ def _format_to_lines(params):
 
 def format_to_linesMS(args):
     test_files = []
-    for f in glob.glob(pjoin(args.raw_path, '*.json')).sort():
+    for f in sorted(glob.glob(pjoin(args.raw_path, '*.json'))):
         test_files.append(f)
             
     corpora = { 'test': test_files}
