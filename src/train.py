@@ -261,7 +261,7 @@ def testToCSVNewData(args, device_id, pt, step):
     model.load_cp(checkpoint)
     model.eval()
 
-    test_iter =data_loader.Dataloader(args, load_dataset(args, 'test', shuffle=False),
+    test_iter =data_loader.Dataloader(args, load_datasetToCSVNewData(args, 'test', shuffle=False),
                                   args.batch_size, device,
                                   shuffle=False, is_test=True)
     trainer = build_trainer(args, device_id, model, None)
