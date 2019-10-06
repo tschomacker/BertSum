@@ -341,13 +341,14 @@ def format_to_linesMS(args):
         nameTrack = []
         for d in pool.imap_unordered(_format_to_linesMS, a_lst):
             #d[1] is the file name
+            name = re.split( r"/|\|INDEX\|" , d[1])[1]
             if len(nameTrack)==0:
-                nameTrack.append( d[1].split('|INDEX|')[0] )
+                nameTrack.append( name )
                 dataset.append(d[0])
             elif d[1].split('|INDEX|')[0] in nameTrack:
                 dataset.append(d[0])
             else:
-                pt_file = "{:s}.{:s}.{s}.json".format(args.save_path, d[1].split('|INDEX|')[0], corpus_type)
+                pt_file = "{:s}.{:s}.{s}.json".format(args.save_path, name, corpus_type)
                 with open(pt_file, 'w') as save:
                     # save.write('\n'.join(dataset))
                     save.write(json.dumps(dataset))
@@ -368,7 +369,7 @@ def format_to_linesMS(args):
         pool.close()
         pool.join()
         if (len(dataset) > 0):
-            pt_file = "{:s}.{:s}.{:s}.json".format(args.save_path, d[1].split('|INDEX|')[0], corpus_type)
+            pt_file = "{:s}.{:s}.{:s}.json".format(args.save_path, name, corpus_type)
             with open(pt_file, 'w') as save:
                 # save.write('\n'.join(dataset))
                 save.write(json.dumps(dataset))
