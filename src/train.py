@@ -331,7 +331,7 @@ if __name__ == '__main__':
 
     parser.add_argument("-encoder", default='classifier', type=str, choices=['classifier','transformer','rnn','baseline'])
                                                                                                            #Santosh edit 10-4-19
-    parser.add_argument("-mode", default='train', type=str, choices=['train','validate','test', 'testToCSV'])
+    parser.add_argument("-mode", default='train', type=str, choices=['train','validate','test', 'testToCSV', 'testToCSVNewData'])
     parser.add_argument("-bert_data_path", default='../bert_data/cnndm')
     parser.add_argument("-model_path", default='../models/')
     parser.add_argument("-result_path", default='../results/cnndm')
