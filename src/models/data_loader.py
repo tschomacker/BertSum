@@ -107,8 +107,40 @@ def load_dataset(args, corpus_type, shuffle):
         # Only one inputters.*Dataset, simple!
         pt = args.bert_data_path + '.' + corpus_type + '.pt'
         yield _lazy_dataset_loader(pt, corpus_type)
+        
+        
+def load_datasetToCSVNewData(args, corpus_type, shuffle):
+    """
+    Dataset generator. Don't do extra stuff here, like printing,
+    because they will be postponed to the first loading time.
 
+    Args:
+        corpus_type: 'train' or 'valid'
+    Returns:
+        A list of dataset, the dataset(s) are lazily loaded.
+    """
+    assert corpus_type in ["train", "valid", "test"]
 
+    def _lazy_dataset_loader(pt_file, corpus_type):
+        logger.info('Loading %s dataset from %s' %
+                    (corpus_type, pt_file))
+        dataset = torch.load(pt_file)
+        logger.info('Loaded %s dataset from %s, number of examples: %d' %
+                    (corpus_type, pt_file, len(dataset)))
+        return dataset
+
+    # Sort the glob output by file name (by increasing indexes).
+    pts = sorted(glob.glob(args.bert_data_path + '*.pt'))
+    if pts:
+        if (shuffle):
+            random.shuffle(pts)
+
+        for pt in pts:
+            yield _lazy_dataset_loader(pt, corpus_type)
+    else:
+        # Only one inputters.*Dataset, simple!
+        pt = args.bert_data_path + '.' + corpus_type + '.pt'
+        yield _lazy_dataset_loader(pt, corpus_type)
 def simple_batch_size_fn(new, count):
     src, labels = new[0], new[1]
     global max_n_sents, max_n_tokens, max_size
