@@ -124,7 +124,6 @@ def load_datasetToCSVNewData(args, corpus_type, shuffle):
     def _lazy_dataset_loader(pt_file, corpus_type):
         logger.info('Loading %s dataset from %s' %
                     (corpus_type, pt_file))
-        name = re.search('Files.(.*).test.bert.pt', pt_file).group(1)
         dataset = torch.load(pt_file)
         logger.info('Loaded %s dataset from %s, number of examples: %d' %
                     (corpus_type, pt_file, len(dataset)))
@@ -137,7 +136,8 @@ def load_datasetToCSVNewData(args, corpus_type, shuffle):
             random.shuffle(pts)
 
         for pt in pts:
-            yield _lazy_dataset_loader(pt, corpus_type)
+            name = re.search('Files.(.*).test.bert.pt', pt).group(1)
+            yield _lazy_dataset_loader(pt, corpus_type), name
     else:
         # Only one inputters.*Dataset, simple!
         pt = args.bert_data_path + '.' + corpus_type + '.pt'
@@ -159,12 +159,12 @@ class Dataloader(object):
     def __init__(self, args, datasets,  batch_size,
                  device, shuffle, is_test):
         self.args = args
-        self.datasets, self.name = datasets.items()
+        self.datasets, self.name = datasets
         self.batch_size = batch_size
         self.device = device
         self.shuffle = shuffle
         self.is_test = is_test
-        self.cur_iter = self._next_dataset_iterator(self.datasets)
+        self.cur_iter = self._next_dataset_iterator(datasets)
 
         assert self.cur_iter is not None
 
