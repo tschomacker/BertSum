@@ -374,6 +374,7 @@ def format_to_linesMS(args):
                     save.write(json.dumps(dataset))
                     p_ct += 1
                     dataset = []
+                    nameTrack = []
                     dataset.append(d[0])
 
 
