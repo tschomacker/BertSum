@@ -369,7 +369,7 @@ def format_to_linesMS(args):
             elif name in nameTrack:
                 dataset.append(d[0])
             else:
-                pt_file = "{:s}.{:s}.{:s}.json".format(args.save_path, name, corpus_type)
+                pt_file = "{:s}.{:s}.{:s}.json".format(args.save_path, nameTrack[0], corpus_type)
                 with open(pt_file, 'w') as save:
                     # save.write('\n'.join(dataset))
                     save.write(json.dumps(dataset))
@@ -392,7 +392,7 @@ def format_to_linesMS(args):
         pool.close()
         pool.join()
         if (len(dataset) > 0):
-            pt_file = "{:s}.{:s}.{:s}.json".format(args.save_path, name, corpus_type)
+            pt_file = "{:s}.{:s}.{:s}.json".format(args.save_path, nameTrack[0], corpus_type)
             with open(pt_file, 'w') as save:
                 # save.write('\n'.join(dataset))
                 save.write(json.dumps(dataset))
