@@ -341,7 +341,6 @@ class Trainer(object):
                     mask = batch.mask
                     mask_cls = batch.mask_cls
 
-
                     gold = []
                     pred = []
                     source = []
@@ -441,6 +440,7 @@ class Trainer(object):
                     clss = batch.clss
                     mask = batch.mask
                     mask_cls = batch.mask_cls
+                    paper_id  = batch.paper_id 
 
                     pred = []
                     source = []
@@ -490,7 +490,7 @@ class Trainer(object):
 
                         #10-4-19 Santosh Edit
                     for i in range(len(pred)):
-                        save_pred.write( pred[i].strip() + ' |^~| ' + source[i].strip() + '\n' )
+                        save_pred.write( pred[i].strip() + ' |^~| ' + source[i].strip() + ' |^~| ' + paper_id  + '\n' )
 
         if(step!=-1 and self.args.report_rouge):
             rouges = test_rougeCSV(self.args.temp_dir, can_path)
