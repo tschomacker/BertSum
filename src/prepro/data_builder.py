@@ -277,6 +277,7 @@ def _format_to_bert(params):
 
     logger.info('Processing %s' % json_file)
     jobs = json.load(open(json_file))
+    name = re.search('Files.(.*).test.json', json_file).group(1)
     datasets = []
     for d in jobs:
         source, tgt = d['src'], d['tgt']
@@ -289,7 +290,7 @@ def _format_to_bert(params):
             continue
         indexed_tokens, labels, segments_ids, cls_ids, src_txt, tgt_txt = b_data
         b_data_dict = {"src": indexed_tokens, "labels": labels, "segs": segments_ids, 'clss': cls_ids,
-                       'src_txt': src_txt, "tgt_txt": tgt_txt}
+                       'src_txt': src_txt, "tgt_txt": tgt_txt, "paper_id": name}
         datasets.append(b_data_dict)
     logger.info('Saving to %s' % save_file)
     torch.save(datasets, save_file)
