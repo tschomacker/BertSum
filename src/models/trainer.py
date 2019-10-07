@@ -444,6 +444,7 @@ class Trainer(object):
 
                     pred = []
                     source = []
+                    arxID = []
 
                     if (cal_lead):
                         selected_ids = [list(range(batch.clss.size(1)))] * batch.batch_size
@@ -487,10 +488,12 @@ class Trainer(object):
                         pred.append(_pred)
 
                         source.append(''.join(batch.src_str[i]))
+                        
+                        arxID.append(paper_id[i])
 
                         #10-4-19 Santosh Edit
                     for i in range(len(pred)):
-                        save_pred.write( pred[i].strip() + ' |^~| ' + source[i].strip() + ' |^~| ' + paper_id[i]  + '\n' )
+                        save_pred.write( pred[i].strip() + ' |^~| ' + source[i].strip() + ' |^~| ' + arxID[i]  + '\n' )
 
         if(step!=-1 and self.args.report_rouge):
             rouges = test_rougeCSV(self.args.temp_dir, can_path)
