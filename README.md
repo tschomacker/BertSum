@@ -1,3 +1,9 @@
+
+
+
+-Enable to load different types of pre-trained weights for initial training, outside pretrained weights choices in the Huggingface Transformers. 
+-Different type of testing modes, producing CSV files which can compare the summaries to the original text, and easily opened in Pandas. 
+
 # BertSum
 
 **This code is for paper `Fine-tune BERT for Extractive Summarization`**(https://arxiv.org/pdf/1903.10318.pdf)
