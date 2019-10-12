@@ -277,6 +277,7 @@ def _format_to_bert(params):
 
     logger.info('Processing %s' % json_file)
     jobs = json.load(open(json_file))
+    name = re.search('Files.(.*).test.json', json_file).group(1)
     datasets = []
     for d in jobs:
         source, tgt = d['src'], d['tgt']
@@ -289,7 +290,7 @@ def _format_to_bert(params):
             continue
         indexed_tokens, labels, segments_ids, cls_ids, src_txt, tgt_txt = b_data
         b_data_dict = {"src": indexed_tokens, "labels": labels, "segs": segments_ids, 'clss': cls_ids,
-                       'src_txt': src_txt, "tgt_txt": tgt_txt}
+                       'src_txt': src_txt, "tgt_txt": tgt_txt, "paper_id": name}
         datasets.append(b_data_dict)
     logger.info('Saving to %s' % save_file)
     torch.save(datasets, save_file)
@@ -368,7 +369,7 @@ def format_to_linesMS(args):
             elif name in nameTrack:
                 dataset.append(d[0])
             else:
-                pt_file = "{:s}.{:s}.{:s}.json".format(args.save_path, name, corpus_type)
+                pt_file = "{:s}.{:s}.{:s}.json".format(args.save_path, nameTrack[0], corpus_type)
                 with open(pt_file, 'w') as save:
                     # save.write('\n'.join(dataset))
                     save.write(json.dumps(dataset))
@@ -391,7 +392,7 @@ def format_to_linesMS(args):
         pool.close()
         pool.join()
         if (len(dataset) > 0):
-            pt_file = "{:s}.{:s}.{:s}.json".format(args.save_path, name, corpus_type)
+            pt_file = "{:s}.{:s}.{:s}.json".format(args.save_path, nameTrack[0], corpus_type)
             with open(pt_file, 'w') as save:
                 # save.write('\n'.join(dataset))
                 save.write(json.dumps(dataset))
