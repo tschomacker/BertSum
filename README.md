@@ -4,6 +4,13 @@
 -Enable to load different types of pre-trained weights for initial training, outside pretrained weights choices in the Huggingface Transformers. The purpose of this is to be able to use Allen AI's SciBert, which are Bert weights trained on scientific literature. 
 
 -Different type of testing modes, producing CSV files which can compare the summaries to the original text, and easily opened in Pandas or any other CSV reader. 
+https://github.com/Santosh-Gupta/BertSum/blob/master/src/train.py#L244
+
+https://github.com/Santosh-Gupta/BertSum/blob/master/src/models/trainer.py#L498
+
+
+-Preprocess files which only contain one summary. The original BertSum repo was designed for the CNN/DM dataset, which contains several lines for summaries, each following a @highlight token. I changed the preprocessing to process datasamples which only have one summary per source
+https://github.com/Santosh-Gupta/BertSum/blob/master/src/prepro/data_builder.py#L30
 
 # BertSum
 
