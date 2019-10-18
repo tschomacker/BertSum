@@ -1,8 +1,9 @@
 
 
 
--Enable to load different types of pre-trained weights for initial training, outside pretrained weights choices in the Huggingface Transformers. 
--Different type of testing modes, producing CSV files which can compare the summaries to the original text, and easily opened in Pandas. 
+-Enable to load different types of pre-trained weights for initial training, outside pretrained weights choices in the Huggingface Transformers. The purpose of this is to be able to use Allen AI's SciBert, which are Bert weights trained on scientific literature. 
+
+-Different type of testing modes, producing CSV files which can compare the summaries to the original text, and easily opened in Pandas or any other CSV reader. 
 
 # BertSum
 
