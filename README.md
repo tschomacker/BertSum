@@ -3,6 +3,12 @@
 
 -Enable to load different types of pre-trained weights for initial training, outside pretrained weights choices in the Huggingface Transformers. The purpose of this is to be able to use Allen AI's SciBert, which are Bert weights trained on scientific literature. 
 
+https://github.com/Santosh-Gupta/BertSum/blob/master/src/models/model_builder.py#L43
+
+-Enable different tokenizer vocab files to be used. 
+
+https://github.com/Santosh-Gupta/BertSum/blob/master/src/prepro/data_builder.py#L149
+
 -Different type of testing modes, producing CSV files which can compare the summaries to the original text, and easily opened in Pandas or any other CSV reader. 
 https://github.com/Santosh-Gupta/BertSum/blob/master/src/train.py#L244
 
