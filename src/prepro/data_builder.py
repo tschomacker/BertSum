@@ -19,6 +19,30 @@ from prepro.utils import _get_word_ngrams
 
 import random
 
+
+def load_jsonMS2(p, lower):
+    source = []
+    tgt = []
+    flag = False
+    for sent in json.load(open(p))['sentences']:
+        tokens = [t['word'] for t in sent['tokens']]
+        if (lower):
+            tokens = [t.lower() for t in tokens]
+        if (tokens[0] == '@highlight'):
+            flag = True
+            continue
+        if (flag):
+            tgt.append(tokens)
+            #commented because in CNN dataset there's a '@highlight' after each summary, where as I only put only one. 
+            #flag = False 
+        else:
+            source.append(tokens)
+
+    source = [clean(' '.join(sent)).split() for sent in source]
+    tgt = [clean(' '.join(sent)).split() for sent in tgt]
+    nameN = re.split( r"/|\|" , p)[1] #10-24-19
+    return source, tgt, nameN
+
 def load_json(p, lower):
     source = []
     tgt = []
@@ -401,8 +425,43 @@ def format_to_linesMS(args):
 #                 dataset = []
 #                 dataset.append(d[0])
 
+def format_to_linesMS2(args):
+    test_files = sorted(glob.glob(pjoin(args.raw_path, '*.json')))
+    corpora = { 'test': test_files}
+    for corpus_type in ['test']:
+        a_lst = [(f, args) for f in corpora[corpus_type]]
+        pool = Pool(args.n_cpus)
+        dataset = []
+        p_ct = 0
+        for d in pool.imap_unordered(_format_to_linesMS2, a_lst):
+            dataset.append(d)
+            if (len(dataset) > args.shard_size):
+                pt_file = "{:s}.{:s}.{:d}.json".format(args.save_path, corpus_type, p_ct)
+                with open(pt_file, 'w') as save:
+                    # save.write('\n'.join(dataset))
+                    save.write(json.dumps(dataset))
+                    p_ct += 1
+                    dataset = []
+
+        pool.close()
+        pool.join()
+        if (len(dataset) > 0):
+            pt_file = "{:s}.{:s}.{:d}.json".format(args.save_path, corpus_type, p_ct)
+            with open(pt_file, 'w') as save:
+                # save.write('\n'.join(dataset))
+                save.write(json.dumps(dataset))
+                p_ct += 1
+                dataset = []
+
 def _format_to_linesMS(params):
     f, args = params
     print(f)
     source, tgt = load_json(f, args.lower)
     return {'src': source, 'tgt': tgt}, f
+
+def _format_to_linesMS2(params):
+    f, args = params
+    print(f)
+    source, tgt, nme = load_jsonMS2(f, args.lower)
+    return {'src': source, 'tgt': tgt, 'paperID': nme }
+
