@@ -1,4 +1,6 @@
 
+## Main differences from the original BertSum repo. 
+
 -Files to be tokenized should now end with '.y' instead of ',story'. This is because the stanford tokenizer has limits to the file name size, so this is to reduce file name size as much as possibe. 
 
 -Enable to load different types of pre-trained weights for initial training, outside pretrained weights choices in the Huggingface Transformers. The purpose of this is to be able to use Allen AI's SciBert, which are Bert weights trained on scientific literature. 
@@ -8,6 +10,10 @@ https://github.com/Santosh-Gupta/BertSum/blob/master/src/models/model_builder.py
 -Enable different tokenizer vocab files to be used. 
 
 https://github.com/Santosh-Gupta/BertSum/blob/master/src/prepro/data_builder.py#L149
+
+-Keep track of the ArxivID of sections summarized
+
+https://github.com/Santosh-Gupta/BertSum/blob/master/src/prepro/data_builder.py#L428
 
 -Different type of testing modes, producing CSV files which can compare the summaries to the original text, and easily opened in Pandas or any other CSV reader. 
 https://github.com/Santosh-Gupta/BertSum/blob/master/src/train.py#L244
