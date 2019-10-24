@@ -362,7 +362,8 @@ def format_to_linesMS(args):
         nameTrack = []
         for d in pool.imap_unordered(_format_to_linesMS, a_lst):
             #d[1] is the file name
-            name = re.split( r"/|\|INDEX\|" , d[1])[1]
+#             name = re.split( r"/|\|INDEX\|" , d[1])[1]
+            name = re.split( r"/|\|" , d[1])[1] #10-24-19
             if len(nameTrack)==0:
                 nameTrack.append( name )
                 dataset.append(d[0])
