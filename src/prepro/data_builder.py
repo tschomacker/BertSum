@@ -248,7 +248,7 @@ def format_to_bertMS(args):
         datasets = ['train', 'valid', 'test']
     for corpus_type in datasets:
         a_lst = []
-        for json_f in glob.glob(pjoin(args.raw_path, '*' + corpus_type + '.json')):
+        for json_f in glob.glob(pjoin(args.raw_path, '*' + '.json')):
             real_name = json_f.split('/')[-1]
             a_lst.append((json_f, args, pjoin(args.save_path, real_name.replace('json', 'bert.pt'))))
         print(a_lst)
@@ -371,9 +371,6 @@ def _format_to_lines(params):
 
 
 def format_to_linesMS(args):
-#     test_files = []
-#     for f in sorted(glob.glob(pjoin(args.raw_path, '*.json'))):
-#         test_files.append(f)
 
     test_files = sorted(glob.glob(pjoin(args.raw_path, '*.json')))
             
@@ -403,16 +400,6 @@ def format_to_linesMS(args):
                 nameTrack = []
                 dataset.append(d[0])
                 nameTrack.append( name )
-
-
-            # if d[1].split('|INDEX|')[0]
-            # if (len(dataset) > args.shard_size):
-            #     pt_file = "{:s}.{:s}.{:d}.json".format(args.save_path, corpus_type, p_ct)
-            #     with open(pt_file, 'w') as save:
-            #         # save.write('\n'.join(dataset))
-            #         save.write(json.dumps(dataset))
-            #         p_ct += 1
-            #         dataset = []
 
         pool.close()
         pool.join()
