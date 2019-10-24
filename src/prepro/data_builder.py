@@ -246,7 +246,7 @@ def tokenize(args):
     print("Making list of files to tokenize...")
     with open("mapping_for_corenlp.txt", "w") as f:
         for s in stories:
-            if (not s.endswith('story')):
+            if (not s.endswith('y')):
                 continue
             f.write("%s\n" % (os.path.join(stories_dir, s)))
             
