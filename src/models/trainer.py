@@ -495,7 +495,7 @@ class Trainer(object):
                     for i in range(len(pred)):
 #                         save_pred.write( pred[i].strip() + ' |^~| ' + source[i].strip() + ' |^~| ' + arxID[i]  + '\n' )
 #  10-18-19
-                        save_pred.write( pred[i].strip().replace(chr(240), "") + ' ' + chr(240) + ' ' + source[i].strip().replace(chr(240), "") + ' ' + chr(240) + ' ' + arxID[i]  + '\n' )
+                        save_pred.write( pred[i].strip().replace(chr(240), "").replace('"', '').replace("'", "") + ' ' + chr(240) + ' ' + source[i].strip().replace(chr(240), "").replace('"', '').replace("'", "") + ' ' + chr(240) + ' ' + arxID[i]  + '\n' )
 
 
         if(step!=-1 and self.args.report_rouge):
