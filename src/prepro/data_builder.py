@@ -253,7 +253,7 @@ def format_to_bertMS(args):
             a_lst.append((json_f, args, pjoin(args.save_path, real_name.replace('json', 'bert.pt'))))
         print(a_lst)
         pool = Pool(args.n_cpus)
-        for d in pool.imap(_format_to_bert, a_lst):
+        for d in pool.imap(_format_to_bertMS, a_lst):
             pass
 
         pool.close()
@@ -321,6 +321,35 @@ def _format_to_bert(params):
     datasets = []
     gc.collect()
 
+def _format_to_bertMS(params):
+    json_file, args, save_file = params
+    if (os.path.exists(save_file)):
+        logger.info('Ignore %s' % save_file)
+        return
+
+    bert = BertData(args)
+
+    logger.info('Processing %s' % json_file)
+    jobs = json.load(open(json_file))
+    # name = re.search('Files.(.*).test.json', json_file).group(1)
+    datasets = []
+    for d in jobs:
+        source, tgt, name = d['src'], d['tgt'], d['paperID']
+        if (args.oracle_mode == 'greedy'):
+            oracle_ids = greedy_selection(source, tgt, 3)
+        elif (args.oracle_mode == 'combination'):
+            oracle_ids = combination_selection(source, tgt, 3)
+        b_data = bert.preprocess(source, tgt, oracle_ids)
+        if (b_data is None):
+            continue
+        indexed_tokens, labels, segments_ids, cls_ids, src_txt, tgt_txt = b_data
+        b_data_dict = {"src": indexed_tokens, "labels": labels, "segs": segments_ids, 'clss': cls_ids,
+                       'src_txt': src_txt, "tgt_txt": tgt_txt, "paper_id": name}
+        datasets.append(b_data_dict)
+    logger.info('Saving to %s' % save_file)
+    torch.save(datasets, save_file)
+    datasets = []
+    gc.collect()
 
 def format_to_lines(args):
     train_files, valid_files, test_files = [], [], []
