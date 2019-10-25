@@ -342,6 +342,7 @@ def _format_to_bertMS(params):
         b_data = bert.preprocess(source, tgt, oracle_ids)
         if (b_data is None):
             continue
+            print('None!!!')
         indexed_tokens, labels, segments_ids, cls_ids, src_txt, tgt_txt = b_data
         b_data_dict = {"src": indexed_tokens, "labels": labels, "segs": segments_ids, 'clss': cls_ids,
                        'src_txt': src_txt, "tgt_txt": tgt_txt, "paper_id": name}
