@@ -466,8 +466,7 @@ class Trainer(object):
                     for i, idx in enumerate(selected_ids):
                         _pred = []
                         if(len(batch.src_str[i])==0):
-                            filer = 1
-                            #continue
+                            continue
                         for j in selected_ids[i][:len(batch.src_str[i])]:
                             if(j>=len( batch.src_str[i])):
                                 continue
@@ -496,7 +495,7 @@ class Trainer(object):
                     for i in range(len(pred)):
 #                         save_pred.write( pred[i].strip() + ' |^~| ' + source[i].strip() + ' |^~| ' + arxID[i]  + '\n' )
 #  10-18-19
-                        save_pred.write( pred[i].strip().replace(chr(240), "").replace('"', '').replace("'", "") + ' ' + chr(240) + ' ' + source[i].strip().replace(chr(240), "").replace('"', '').replace("'", "") + ' ' + chr(240) + ' ' + arxID[i]  + '\n' )
+                        save_pred.write( pred[i].strip().replace(chr(240), "").replace('"', '').replace("'", "").rstrip() + ' ' + chr(240) + ' ' + source[i].strip().replace(chr(240), "").replace('"', '').replace("'", "").rstrip() + ' ' + chr(240) + ' ' + arxID[i]  + '\n' )
 
 
         if(step!=-1 and self.args.report_rouge):
