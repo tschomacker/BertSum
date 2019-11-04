@@ -466,8 +466,8 @@ class Trainer(object):
                     for i, idx in enumerate(selected_ids):
                         _pred = []
                         if(len(batch.src_str[i])==0):
-                            print('No Source Continue')
-                            continue
+                            filer = 1
+                            #continue
                         for j in selected_ids[i][:len(batch.src_str[i])]:
                             if(j>=len( batch.src_str[i])):
                                 continue
