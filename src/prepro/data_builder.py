@@ -18,6 +18,7 @@ from others.utils import clean
 from prepro.utils import _get_word_ngrams
 
 import random
+import stanza
 
 
 def load_jsonMS2(p, lower):
@@ -280,6 +281,68 @@ def tokenize(args):
     subprocess.call(command)
     print("Stanford CoreNLP Tokenizer has finished.")
     os.remove("mapping_for_corenlp.txt")
+
+    # Check that the tokenized stories directory contains the same number of files as the original directory
+    num_orig = len(os.listdir(stories_dir))
+    num_tokenized = len(os.listdir(tokenized_stories_dir))
+    if num_orig != num_tokenized:
+        raise Exception(
+            "The tokenized stories directory %s contains %i files, but it should contain the same number as %s (which has %i files). Was there an error during tokenization?" % (
+            tokenized_stories_dir, num_tokenized, stories_dir, num_orig))
+    print("Successfully finished tokenizing %s to %s.\n" % (stories_dir, tokenized_stories_dir))
+	
+def tokenize_stanza(args):
+    stories_dir = os.path.abspath(args.raw_path)
+    tokenized_stories_dir = os.path.abspath(args.save_path)
+    stanza_language = args.language
+    language_package = args.language_package
+    print("Preparing to tokenize %s to %s..." % (stories_dir, tokenized_stories_dir))
+    stories = os.listdir(stories_dir)
+    stories_paths = []
+    print("Making list of files to tokenize...")
+    for s in stories:
+        if (not s.endswith('story')):
+            continue
+        stories_paths.append(stories_dir+'/'+s)
+    print("Download language %s and its %s package..." % (stanza_language, language_package))
+    nlp = stanza.Pipeline(lang=stanza_language, processors='tokenize', package=language_package)
+    print("Tokenizing %i files in %s and saving in %s..." % (len(stories), stories_dir, tokenized_stories_dir))
+    for story_path in stories_paths:
+        file = open(story_path, 'r')
+        text = file.read()
+        annotated_doc = nlp(text)
+        file.close()
+        file_name = story_path.split('/')[-1]
+        file_name = file_name.split('.')[0]
+        file = open(tokenized_stories_dir+'/'+file_name+'.new2.stanza.json', 'w')
+        doc_dictionary = {}
+        doc_dictionary['sentences'] = []
+        for sentence in annotated_doc.sentences:
+            sentence_dict = {}
+            sentence_dict['index'] = 1
+            sentence_dict['tokens'] = []
+            character_offset_begin = 0
+            character_offset_end = 0
+            for token in sentence.tokens:
+                token_dict = {}
+                token_dict['index'] = int(token.id)
+                token_dict['word'] = token.text
+                original_text = ""
+                for word in token.words:
+                    original_text = original_text+word.text+' '
+                original_text = original_text[:-1]
+                token_dict['originalText'] = original_text
+                character_offset_begin = character_offset_end
+                character_offset_end = character_offset_begin+len(original_text)
+                token_dict['characterOffsetBegin'] = character_offset_begin
+                token_dict['characterOffsetEnd'] = character_offset_end
+                token_dict['before'] = ''
+                token_dict['after'] = ''
+                sentence_dict['tokens'].append(token_dict)
+            doc_dictionary['sentences'].append(sentence_dict)
+        file.write(json.dumps(doc_dictionary))
+        file.close()
+    print("Stanford Stanza Tokenizer has finished.")
 
     # Check that the tokenized stories directory contains the same number of files as the original directory
     num_orig = len(os.listdir(stories_dir))

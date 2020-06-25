@@ -64,6 +64,12 @@ if __name__ == '__main__':
     
     #Santosh edit 7-28-19 add arg for vocab file
     parser.add_argument('-vocab_file', default='bert-base-uncased', type=str)
+	
+	#tschomacker edit 6-24-29 add arg for stanzas used language
+    parser.add_argument('-language', default='en', type=str, help='the language stanzas uses to preprocess yor data. see: https://stanfordnlp.github.io/stanza/available_models.html')
+    	
+	#tschomacker edit 6-24-29 add arg for stanzas used package
+    parser.add_argument('-language_package', default='default', type=str, help='specific package of the language stanza uses. see: https://stanfordnlp.github.io/stanza/available_models.html')
 
     args = parser.parse_args()
     init_logger(args.log_file)

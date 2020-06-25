@@ -1,3 +1,8 @@
+## Main differences from the Santosh-Gupta BertSum repo:
+### Usage of Stanza instead of CoreNLP for multilingual tokenizing:
+```
+python preprocess.py -mode tokenize_stanza -raw_path ../raw_data/stories -save_path ../raw_data/merged_stories_tokenized -log_file ../logs/tokenize_testing.log -language la -language_package ittb
+```
 
 ## Main differences from the original BertSum repo. 
 
