@@ -42,7 +42,7 @@ def load_jsonMS2(p, lower):
 
     source = [clean(' '.join(sent)).split() for sent in source]
     tgt = [clean(' '.join(sent)).split() for sent in tgt]
-    nameN = re.split( r"/|\|" , p)[1] #10-24-19
+    nameN = re.split( r"/|\\" , p)[-1] #10-24-19
     return source, tgt, nameN
 
 def load_json(p, lower):
@@ -251,7 +251,7 @@ def format_to_bertMS(args):
     for corpus_type in datasets:
         a_lst = []
         for json_f in glob.glob(pjoin(args.raw_path, '*' + '.json')):
-            real_name = json_f.split('/')[-1]
+            real_name = re.split( r"/|\\|\\\\" , json_f)[-1]
             a_lst.append((json_f, args, pjoin(args.save_path, real_name.replace('json', 'bert.pt'))))
         print(a_lst)
         pool = Pool(args.n_cpus)

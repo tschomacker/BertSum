@@ -10,6 +10,16 @@ python translate.py -src_language la -dest_language de -raw_path ../raw_data/sto
 python preprocess.py -mode tokenize_stanza -raw_path ../raw_data/stories/de -save_path ../raw_data/merged_stories_tokenized/de -log_file ../logs/tokenize_testing.log -language de
 ```
 
+### Generalized **format_to_linesMS2** to make it usable in Windows:
+```
+python preprocess.py -mode format_to_linesMS2 -raw_path ../raw_data/merged_stories_tokenized/de -save_path ../json_data/de -log_file ../logs/format_to_lines_testing.log
+```
+
+### Generalized **format_to_bertMS** to make it usable in Windows:
+```
+python preprocess.py -mode format_to_bertMS -raw_path ../json_data -save_path ../bert_data -oracle_mode greedy -n_cpus 1 -log_file ../logs/format_to_bert_testing.log
+```
+
 ## Main differences from the original BertSum repo. 
 
 The original Bertsum repo was designed for the CNN/DM datasets. The following are changes I made in order to effectivly process arxiv papers. 
