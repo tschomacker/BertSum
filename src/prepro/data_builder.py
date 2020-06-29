@@ -19,6 +19,7 @@ from prepro.utils import _get_word_ngrams
 
 import random
 import stanza
+import codecs
 
 
 def load_jsonMS2(p, lower):
@@ -296,25 +297,18 @@ def tokenize_stanza(args):
     tokenized_stories_dir = os.path.abspath(args.save_path)
     stanza_language = args.language
     language_package = args.language_package
-    print("Preparing to tokenize %s to %s..." % (stories_dir, tokenized_stories_dir))
-    stories = os.listdir(stories_dir)
-    stories_paths = []
-    print("Making list of files to tokenize...")
-    for s in stories:
-        if (not s.endswith('story')):
-            continue
-        stories_paths.append(stories_dir+'/'+s)
-    print("Download language %s and its %s package..." % (stanza_language, language_package))
     nlp = stanza.Pipeline(lang=stanza_language, processors='tokenize', package=language_package)
+    stories = os.listdir(stories_dir)
     print("Tokenizing %i files in %s and saving in %s..." % (len(stories), stories_dir, tokenized_stories_dir))
-    for story_path in stories_paths:
-        file = open(story_path, 'r')
+
+    for story in stories:
+        file = codecs.open(stories_dir+'/'+story, 'r', 'utf-8')
         text = file.read()
         annotated_doc = nlp(text)
         file.close()
-        file_name = story_path.split('/')[-1]
-        file_name = file_name.split('.')[0]
-        file = open(tokenized_stories_dir+'/'+file_name+'.new2.stanza.json', 'w')
+        seperator = '/'
+        file_name = seperator.join(story.rsplit('.', 1)).split(seperator)[0]
+        file = open(tokenized_stories_dir+'/'+file_name+'.json', 'w')
         doc_dictionary = {}
         doc_dictionary['sentences'] = []
         for sentence in annotated_doc.sentences:

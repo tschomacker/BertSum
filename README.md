@@ -1,7 +1,13 @@
 ## Main differences from the Santosh-Gupta BertSum repo:
+
+### Adding a translation layer:
+```
+python translate.py -src_language la -dest_language de -raw_path ../raw_data/stories/la -save_path ../raw_data/stories/de
+```
+
 ### Usage of Stanza instead of CoreNLP for multilingual tokenizing:
 ```
-python preprocess.py -mode tokenize_stanza -raw_path ../raw_data/stories -save_path ../raw_data/merged_stories_tokenized -log_file ../logs/tokenize_testing.log -language la -language_package ittb
+python preprocess.py -mode tokenize_stanza -raw_path ../raw_data/stories/de -save_path ../raw_data/merged_stories_tokenized/de -log_file ../logs/tokenize_testing.log -language de
 ```
 
 ## Main differences from the original BertSum repo. 
