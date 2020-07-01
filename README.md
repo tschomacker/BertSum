@@ -1,5 +1,10 @@
 ## Main differences from the Santosh-Gupta BertSum repo:
 
+### Converting formulae .xml files to .story
+```
+python xml_story_converter.py -raw_path ../raw_data/xml/schaeftlarn -save_path ../raw_data/stories/la
+```
+
 ### Adding a translation layer:
 ```
 python translate.py -src_language la -dest_language de -raw_path ../raw_data/stories/la -save_path ../raw_data/stories/de
