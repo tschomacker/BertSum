@@ -297,7 +297,8 @@ def tokenize_stanza(args):
     tokenized_stories_dir = os.path.abspath(args.save_path)
     stanza_language = args.language
     language_package = args.language_package
-    nlp = stanza.Pipeline(lang=stanza_language, processors='tokenize', package=language_package)
+    stanza.download(lang=stanza_language, dir='stanza-resources/', processors='tokenize', package=language_package)
+    nlp = stanza.Pipeline(lang=stanza_language, dir='stanza-resources/', processors='tokenize', package=language_package)
     stories = os.listdir(stories_dir)
     print("Tokenizing %i files in %s and saving in %s..." % (len(stories), stories_dir, tokenized_stories_dir))
 
@@ -319,7 +320,11 @@ def tokenize_stanza(args):
             character_offset_end = 0
             for token in sentence.tokens:
                 token_dict = {}
-                token_dict['index'] = int(token.id)
+                if type(token.id) is tuple:
+                    token_id = token.id[0]
+                    token_dict['index'] = int(token_id)
+                else:
+                    token_dict['index'] = int(token.id)
                 token_dict['word'] = token.text
                 original_text = ""
                 for word in token.words:
