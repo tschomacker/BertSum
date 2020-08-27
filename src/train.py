@@ -176,7 +176,7 @@ def validate(args,  device_id, pt, step):
     print(args)
 
     config = BertConfig.from_json_file(args.bert_config_path)
-    model = Summarizer(args, device, load_pretrained_bert=False, bert_config = config)
+    model = Summarizer(args, device, load_pretrained_bert=True, bert_config = config)
     model.load_cp(checkpoint)
     model.eval()
 
@@ -203,7 +203,7 @@ def test(args, device_id, pt, step):
     print(args)
 
     config = BertConfig.from_json_file(args.bert_config_path)
-    model = Summarizer(args, device, load_pretrained_bert=False, bert_config = config)
+    model = Summarizer(args, device, load_pretrained_bert=True, bert_config = config)
     model.load_cp(checkpoint)
     model.eval()
 
@@ -230,7 +230,7 @@ def testToCSV(args, device_id, pt, step):
     print(args)
 
     config = BertConfig.from_json_file(args.bert_config_path)
-    model = Summarizer(args, device, load_pretrained_bert=False, bert_config = config)
+    model = Summarizer(args, device, load_pretrained_bert=True, bert_config = config)
     model.load_cp(checkpoint)
     model.eval()
 
@@ -257,7 +257,7 @@ def testToCSVNewData(args, device_id, pt, step):
     print(args)
 
     config = BertConfig.from_json_file(args.bert_config_path)
-    model = Summarizer(args, device, load_pretrained_bert=False, bert_config = config)
+    model = Summarizer(args, device, load_pretrained_bert=True, bert_config = config)
     model.load_cp(checkpoint)
     model.eval()
 
