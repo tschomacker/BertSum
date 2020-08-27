@@ -7,13 +7,13 @@ python xml_story_converter.py -raw_path ../raw_data/xml/schaeftlarn -save_path .
 ```
 e.g.
 ```
-python xml_story_converter.py -raw_path ../raw_data/xml -save_path ../raw_data/stories/la -log_file ../logs/converting.log
+python src/xml_story_converter.py -raw_path ./raw_data/xml -save_path ./raw_data/stories/la_de -log_file ./logs/converting.log
 ```
 
 
 ### Adding a translation layer:
 ```
-python translate.py -src_language la -dest_language en -mode pre_highlight -raw_path ../raw_data/stories/la -save_path ../raw_data/stories/de
+python translate.py -src_language la -dest_language de -mode pre_highlight -raw_path ../raw_data/stories/la -save_path ../raw_data/stories/de
 ```
 
 ### Usage of Stanza instead of CoreNLP for multilingual tokenizing:

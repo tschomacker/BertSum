@@ -24,14 +24,19 @@ def parse(path_to_file):
             if 'textpart' != div.get('type'):
                 identifier = div.get('n')
     regest = ''
-    for div in root.iter('{http://www.tei-c.org/ns/1.0}div'):
-        if 'subtype' in div.attrib:
-            if 'regest' == div.get('subtype'):
-                for p in div.iter('{http://www.tei-c.org/ns/1.0}p'):
-                    try:
-                        regest = regest + p.text.replace('    ','').replace('\n','')
-                    except:
-                        regest = regest
+    for front in root.iter('{http://www.tei-c.org/ns/1.0}front'):
+        if '{http://www.w3.org/XML/1998/namespace}lang' in front.attrib:
+            # excluding non-german regests
+            if 'deu' == front.get('{http://www.w3.org/XML/1998/namespace}lang'): 
+                for div in front.iter('{http://www.tei-c.org/ns/1.0}div'):
+                    if 'subtype' in div.attrib:
+                        if 'regest' == div.get('subtype'):
+                            for p in div.iter('{http://www.tei-c.org/ns/1.0}p'):
+                                try:
+                                    regest = regest + p.text.replace('    ','').replace('\n','')
+                                except:
+                                    regest = regest
+    
     text_words = ''
     for text in root.iter('{http://www.tei-c.org/ns/1.0}p'):
         for w in text.iter('{http://www.tei-c.org/ns/1.0}w'):
@@ -87,7 +92,8 @@ if __name__ == '__main__':
         else: 
             save_path =  os.path.abspath(args.save_path)
             identifier = identifier.replace(':','.')
-            file = codecs.open(save_path+'/'+identifier+'.story', 'w', 'utf-8')
+            save_path = os.path.join(save_path, identifier+'.story')
+            file = codecs.open(save_path, 'w', 'utf-8')
             file.write(text)
             file.write('\n\n@highlight\n\n')
             file.write(regest)
@@ -96,6 +102,7 @@ if __name__ == '__main__':
             if args.verbose:
                 sys.stdout.write('.')
                 if(50==count):
+                    print('.')
                     sys.stdout.write('\n')
                 sys.stdout.flush()
     write_log_file(no_id_found, no_regest_found, no_text_found)
