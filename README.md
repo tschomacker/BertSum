@@ -13,7 +13,7 @@ python src/xml_story_converter.py -raw_path ./raw_data/xml -save_path ./raw_data
 
 ### Adding a translation layer:
 ```
-python translate.py -src_language la -dest_language de -mode pre_highlight -raw_path ../raw_data/stories/la -save_path ../raw_data/stories/de
+python src/translate.py -src_language la -dest_language de -mode pre_highlight -raw_path ./raw_data/stories/la_de -save_path ./raw_data/stories/de_de -log_file ./logs/translate.log
 ```
 
 ### Usage of Stanza instead of CoreNLP for multilingual tokenizing:
