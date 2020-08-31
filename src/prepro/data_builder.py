@@ -505,9 +505,21 @@ def format_to_linesMS(args):
 #                 dataset.append(d[0])
 
 def format_to_linesMS2(args):
-    test_files = sorted(glob.glob(pjoin(args.raw_path, '*.json')))
-    corpora = { 'test': test_files}
-    for corpus_type in ['test']:
+    train_files, valid_files, test_files = [], [], []
+    all_files = glob.glob(pjoin(args.raw_path, '*.json'))
+    random.shuffle(all_files)
+    count = 0
+    for f in all_files:
+        if count<4395:
+            train_files.append(f)
+        elif count<4395+191:
+            valid_files.append(f)
+        elif count<4395+191+191:
+            test_files.append(f)
+        count += 1
+    
+    corpora = {'train': train_files, 'valid': valid_files, 'test': test_files}
+    for corpus_type  in ['train', 'valid', 'test']:
         a_lst = [(f, args) for f in corpora[corpus_type]]
         pool = Pool(args.n_cpus)
         dataset = []
